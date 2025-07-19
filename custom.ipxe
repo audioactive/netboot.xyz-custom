@@ -1,12 +1,20 @@
-#!ipxe
-###
-### netboot.xyz-custom menu
-###
+menu This is a Test Menu
+item --gap This is the first sub menu
+item option_one ${space} Loading a kernel and initrd
+item option_two ${space} Loading an ISO
+item proxmox ${space} Proxmox VE 9.0-BETA-1 ISO starten
+item --gap This is a second sub menu
+item option_three ${space} Loads another custom sub menu
+item option_four ${space} This is option four
+choose custom_choice || goto custom_exit
+...
 
-:start
-echo Hello world!
-sleep 10
-goto custom_exit
+:option_two
+kernel https://boot.netboot.xyz/memdisk raw iso
+initrd http://path.to/iso
+boot || goto custom_exit
 
-:custom_exit
-exit 0
+:proxmox
+kernel https://boot.netboot.xyz/memdisk raw iso
+initrd https://enterprise.proxmox.com/iso/proxmox-ve_9.0-BETA-1.iso
+boot || goto custom_exit
